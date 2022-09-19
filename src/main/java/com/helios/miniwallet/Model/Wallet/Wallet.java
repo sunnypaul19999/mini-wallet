@@ -17,17 +17,18 @@ public class Wallet {
   private final long id;
 
   @Version
-  @Column(name = "walletTimestamp", nullable = false)
+  @Column(name = "wallet_timestamp", nullable = false)
   private final Timestamp walletTimestamp;
 
   @Min(value = 0)
-  @Column(name = "availableBalance", nullable = false)
+  @Column(name = "available_balance", nullable = false)
   private long availableBalance;
 
   @OneToOne
   @JoinColumn(
-      name = "fk_user_id",
+      name = "user_id",
       referencedColumnName = "user_id",
+      unique = true,
       nullable = false,
       updatable = false)
   private User user;

@@ -27,7 +27,10 @@ public class WalletServiceImpl implements WalletService {
   }
 
   @Override
-  public void debitAmt(DebitRequest debitRequest) {}
+  public void debitAmt(DebitRequest debitRequest) {
+  
+  
+  }
 
   @Override
   public void creditAmt(CreditRequest creditRequest) {}

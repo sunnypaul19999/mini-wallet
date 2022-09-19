@@ -23,7 +23,7 @@ public class WalletTransactionHistory {
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(
-      name = "fk_wallet_id",
+      name = "wallet_id",
       referencedColumnName = "wallet_id",
       nullable = false,
       updatable = false)
