@@ -1,8 +1,7 @@
 package com.helios.miniwallet.Service.Impl;
 
-import com.helios.miniwallet.DTO.Request.CreditRequest;
-import com.helios.miniwallet.DTO.Request.DebitRequest;
-import com.helios.miniwallet.Model.Wallet.Wallet;
+import com.helios.miniwallet.dto.Request.CreditRequest;
+import com.helios.miniwallet.dto.Request.DebitRequest;
 import com.helios.miniwallet.Repository.WalletRepo;
 import com.helios.miniwallet.Service.UserService;
 import com.helios.miniwallet.Service.WalletService;
@@ -22,9 +21,9 @@ public class WalletServiceImpl implements WalletService {
   }
 
   @Override
-  public Wallet availableBalance(String username) {
+  public int availableBalance(String username) {
 
-    return null;
+    return 0;
   }
 
   @Override

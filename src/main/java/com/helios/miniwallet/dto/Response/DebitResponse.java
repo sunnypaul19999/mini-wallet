@@ -1,4 +1,4 @@
-package com.helios.miniwallet.DTO.Response;
+package com.helios.miniwallet.dto.Response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

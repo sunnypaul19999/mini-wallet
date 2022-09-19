@@ -1,4 +1,4 @@
-package com.helios.miniwallet.DTO.Request;
+package com.helios.miniwallet.dto.Request;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -8,15 +8,15 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class DebitRequest implements WalletRequest {
+public class CreditRequest implements WalletRequest {
 
-  @Min(value = 1, message = "debit value should be greater than 0")
+  @Min(value = 1, message = "credit value should be greater than 0")
   @JsonProperty(access = JsonProperty.Access.READ_ONLY, required = true)
-  long amt;
+  private final long amt;
 
   @JsonIgnore @NotNull private String username;
 
-  public DebitRequest(long amt) {
+  public CreditRequest(long amt) {
 
     this.amt = amt;
   }

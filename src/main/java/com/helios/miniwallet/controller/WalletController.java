@@ -1,30 +1,33 @@
 package com.helios.miniwallet.controller;
 
+import com.helios.miniwallet.Service.WalletService;
+import com.helios.miniwallet.dto.Response.BalanceResponse;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 
-@RestController(value = "/user/acct")
+@RestController
+@RequestMapping(value = "/user/acct")
 public class WalletController {
 
-  @GetMapping(name = "/balance")
-  String fetchBalance(HttpServletResponse httpServletResponse) {
+  private final WalletService walletService;
 
-    return "balance";
+  public WalletController(WalletService walletService) {
+
+    this.walletService = walletService;
   }
 
-  @PostMapping(name = "/credit")
-  String creditAcct(HttpServletResponse httpServletResponse) {
+  @GetMapping("/balance")
+  public BalanceResponse fetchBalance(HttpServletResponse httpServletResponse) {
 
-    return "balance";
-  }
+    final var authentication = SecurityContextHolder.getContext().getAuthentication();
 
-  @PutMapping(name = "/debit")
-  String debitAcct(HttpServletResponse httpServletResponse) {
+    final String username = "user"; // ((Principal) authentication.getPrincipal()).getName();
 
-    return "balance";
+    return new BalanceResponse(
+        walletService.availableBalance(username), "Balance fetched successfully");
   }
 }
