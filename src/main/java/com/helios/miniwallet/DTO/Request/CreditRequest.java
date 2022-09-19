@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import java.security.Principal;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CreditRequest implements WalletRequest {
@@ -15,7 +14,7 @@ public class CreditRequest implements WalletRequest {
   @JsonProperty(access = JsonProperty.Access.READ_ONLY, required = true)
   private final long amt;
 
-  @JsonIgnore @NotNull private Principal principal;
+  @JsonIgnore @NotNull private String username;
 
   public CreditRequest(long amt) {
 
@@ -27,13 +26,13 @@ public class CreditRequest implements WalletRequest {
     return amt;
   }
 
-  public Principal getPrincipal() {
+  public String getUsername() {
 
-    return principal;
+    return username;
   }
 
-  public void setPrincipal(Principal principal) {
+  public void setUsername(String username) {
 
-    this.principal = principal;
+    this.username = username;
   }
 }

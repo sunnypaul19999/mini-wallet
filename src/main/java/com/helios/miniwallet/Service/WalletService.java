@@ -8,7 +8,7 @@ import java.security.Principal;
 
 public interface WalletService {
 
-  public Wallet availableBalance(Principal principal);
+  public Wallet availableBalance(String username);
 
   public void debitAmt(DebitRequest debitRequest);
 
