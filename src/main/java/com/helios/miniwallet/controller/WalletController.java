@@ -3,6 +3,7 @@ package com.helios.miniwallet.controller;
 import com.helios.miniwallet.Service.WalletService;
 import com.helios.miniwallet.dto.Response.BalanceResponse;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,11 +24,10 @@ public class WalletController {
   @GetMapping("/balance")
   public BalanceResponse fetchBalance(HttpServletResponse httpServletResponse) {
 
-    final var authentication = SecurityContextHolder.getContext().getAuthentication();
-
-    final String username = "user"; // ((Principal) authentication.getPrincipal()).getName();
+    final UserDetails userDetails =
+        (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
     return new BalanceResponse(
-        walletService.availableBalance(username), "Balance fetched successfully");
+        walletService.availableBalance(userDetails.getUsername()), "Balance fetched successfully");
   }
 }
