@@ -12,29 +12,33 @@ import java.util.List;
 public class Wallet {
 
   @Id
-  @Column(name = "walletId", nullable = false, updatable = false)
+  @Column(name = "wallet_id", nullable = false, updatable = false)
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private final long id;
 
   @Version
   @Column(name = "walletTimestamp", nullable = false)
-  private final Timestamp timestamp;
+  private final Timestamp walletTimestamp;
 
   @Min(value = 0)
   @Column(name = "availableBalance", nullable = false)
   private long availableBalance;
 
   @OneToOne
-  @JoinColumn(name = "user_id", nullable = false, updatable = false)
+  @JoinColumn(
+      name = "fk_user_id",
+      referencedColumnName = "user_id",
+      nullable = false,
+      updatable = false)
   private User user;
 
-  @OneToMany(mappedBy = "wallet")
+  @OneToMany(mappedBy = "wallet", cascade = CascadeType.REMOVE)
   private List<WalletTransactionHistory> transactionHistory;
 
-  public Wallet(long id, Timestamp timestamp) {
+  public Wallet(long id, Timestamp walletTimestamp) {
 
     this.id = id;
-    this.timestamp = timestamp;
+    this.walletTimestamp = walletTimestamp;
   }
 
   public long getId() {
@@ -42,9 +46,9 @@ public class Wallet {
     return id;
   }
 
-  public Timestamp getTimestamp() {
+  public Timestamp getWalletTimestamp() {
 
-    return timestamp;
+    return walletTimestamp;
   }
 
   public long getAvailableBalance() {

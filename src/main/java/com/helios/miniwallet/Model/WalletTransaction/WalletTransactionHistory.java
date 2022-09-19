@@ -3,6 +3,7 @@ package com.helios.miniwallet.Model.WalletTransaction;
 import com.helios.miniwallet.Model.Wallet.Wallet;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Entity(name = "wallet_transaction_history")
 public class WalletTransactionHistory {
@@ -12,23 +13,38 @@ public class WalletTransactionHistory {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private final long id;
 
+  @Version
+  @Column(name = "wallet_transaction_timestamp", nullable = false)
+  private final Timestamp walletTransactionTimestamp;
+
   @Enumerated(value = EnumType.STRING)
   @Column(name = "wallet_transaction_action", nullable = false, updatable = false)
   private final WalletTransactionAction action;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "id", nullable = false, updatable = false)
+  @JoinColumn(
+      name = "fk_wallet_id",
+      referencedColumnName = "wallet_id",
+      nullable = false,
+      updatable = false)
   private Wallet wallet;
 
-  public WalletTransactionHistory(long id, WalletTransactionAction action) {
+  public WalletTransactionHistory(
+      long id, Timestamp walletTransactionTimestamp, WalletTransactionAction action) {
 
     this.id = id;
+    this.walletTransactionTimestamp = walletTransactionTimestamp;
     this.action = action;
   }
 
   public long getId() {
 
     return id;
+  }
+
+  public Timestamp getWalletTransactionTimestamp() {
+
+    return walletTransactionTimestamp;
   }
 
   public WalletTransactionAction getAction() {
