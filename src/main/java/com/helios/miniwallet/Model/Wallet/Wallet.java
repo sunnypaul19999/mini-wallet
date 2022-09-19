@@ -6,6 +6,7 @@ import com.helios.miniwallet.Model.WalletTransaction.WalletTransactionHistory;
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import java.sql.Timestamp;
+import java.util.List;
 
 @Entity(name = "wallet")
 public class Wallet {
@@ -28,7 +29,7 @@ public class Wallet {
   private User user;
 
   @OneToMany(mappedBy = "wallet")
-  private WalletTransactionHistory transactionHistory;
+  private List<WalletTransactionHistory> transactionHistory;
 
   public Wallet(long id, Timestamp timestamp) {
 
@@ -41,6 +42,11 @@ public class Wallet {
     return id;
   }
 
+  public Timestamp getTimestamp() {
+
+    return timestamp;
+  }
+
   public long getAvailableBalance() {
 
     return availableBalance;
@@ -51,8 +57,13 @@ public class Wallet {
     this.availableBalance = availableBalance;
   }
 
-  public Timestamp getTimestamp() {
+  public List<WalletTransactionHistory> getTransactionHistory() {
 
-    return timestamp;
+    return transactionHistory;
+  }
+
+  public void setTransactionHistory(List<WalletTransactionHistory> transactionHistory) {
+
+    this.transactionHistory = transactionHistory;
   }
 }
