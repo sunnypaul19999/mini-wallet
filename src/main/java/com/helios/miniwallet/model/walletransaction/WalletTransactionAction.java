@@ -1,4 +1,4 @@
-package com.helios.miniwallet.Model.WalletTransaction;
+package com.helios.miniwallet.model.walletransaction;
 
 public enum WalletTransactionAction {
   DEBIT,

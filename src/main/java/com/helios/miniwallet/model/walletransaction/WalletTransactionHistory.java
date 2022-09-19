@@ -1,6 +1,6 @@
-package com.helios.miniwallet.Model.WalletTransaction;
+package com.helios.miniwallet.model.walletransaction;
 
-import com.helios.miniwallet.Model.Wallet.Wallet;
+import com.helios.miniwallet.model.wallet.Wallet;
 
 import javax.persistence.*;
 import java.sql.Timestamp;

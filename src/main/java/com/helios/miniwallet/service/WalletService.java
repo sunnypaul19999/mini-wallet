@@ -1,7 +1,7 @@
-package com.helios.miniwallet.Service;
+package com.helios.miniwallet.service;
 
-import com.helios.miniwallet.dto.Request.CreditRequest;
-import com.helios.miniwallet.dto.Request.DebitRequest;
+import com.helios.miniwallet.dto.request.CreditRequest;
+import com.helios.miniwallet.dto.request.DebitRequest;
 
 public interface WalletService {
 

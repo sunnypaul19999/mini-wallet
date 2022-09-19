@@ -1,4 +1,4 @@
-package com.helios.miniwallet.dto.Response;
+package com.helios.miniwallet.dto.response;
 
 import javax.validation.constraints.NotNull;
 

@@ -1,6 +1,6 @@
-package com.helios.miniwallet.Service;
+package com.helios.miniwallet.service;
 
-import com.helios.miniwallet.Model.User.User;
+import com.helios.miniwallet.model.user.User;
 
 public interface UserService {
 

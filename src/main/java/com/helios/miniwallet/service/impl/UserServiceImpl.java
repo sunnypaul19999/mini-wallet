@@ -1,8 +1,8 @@
-package com.helios.miniwallet.Service.Impl;
+package com.helios.miniwallet.service.impl;
 
-import com.helios.miniwallet.Model.User.User;
-import com.helios.miniwallet.Repository.UserRepo;
-import com.helios.miniwallet.Service.UserService;
+import com.helios.miniwallet.model.user.User;
+import com.helios.miniwallet.repository.UserRepo;
+import com.helios.miniwallet.service.UserService;
 import org.springframework.stereotype.Service;
 
 @Service

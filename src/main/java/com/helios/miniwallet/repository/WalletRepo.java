@@ -1,6 +1,6 @@
-package com.helios.miniwallet.Repository;
+package com.helios.miniwallet.repository;
 
-import com.helios.miniwallet.Model.Wallet.Wallet;
+import com.helios.miniwallet.model.wallet.Wallet;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

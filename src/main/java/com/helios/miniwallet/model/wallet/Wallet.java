@@ -1,7 +1,7 @@
-package com.helios.miniwallet.Model.Wallet;
+package com.helios.miniwallet.model.wallet;
 
-import com.helios.miniwallet.Model.User.User;
-import com.helios.miniwallet.Model.WalletTransaction.WalletTransactionHistory;
+import com.helios.miniwallet.model.user.User;
+import com.helios.miniwallet.model.walletransaction.WalletTransactionHistory;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;

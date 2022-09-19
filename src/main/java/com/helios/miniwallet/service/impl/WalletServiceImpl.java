@@ -1,10 +1,10 @@
-package com.helios.miniwallet.Service.Impl;
+package com.helios.miniwallet.service.impl;
 
-import com.helios.miniwallet.dto.Request.CreditRequest;
-import com.helios.miniwallet.dto.Request.DebitRequest;
-import com.helios.miniwallet.Repository.WalletRepo;
-import com.helios.miniwallet.Service.UserService;
-import com.helios.miniwallet.Service.WalletService;
+import com.helios.miniwallet.dto.request.CreditRequest;
+import com.helios.miniwallet.dto.request.DebitRequest;
+import com.helios.miniwallet.repository.WalletRepo;
+import com.helios.miniwallet.service.UserService;
+import com.helios.miniwallet.service.WalletService;
 import org.springframework.stereotype.Service;
 
 @Service

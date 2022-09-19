@@ -1,6 +1,6 @@
-package com.helios.miniwallet.Model.User;
+package com.helios.miniwallet.model.user;
 
-import com.helios.miniwallet.Model.Wallet.Wallet;
+import com.helios.miniwallet.model.wallet.Wallet;
 
 import javax.persistence.*;
 

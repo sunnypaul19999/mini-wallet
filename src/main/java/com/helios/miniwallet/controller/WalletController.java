@@ -1,7 +1,7 @@
 package com.helios.miniwallet.controller;
 
-import com.helios.miniwallet.Service.WalletService;
-import com.helios.miniwallet.dto.Response.BalanceResponse;
+import com.helios.miniwallet.service.WalletService;
+import com.helios.miniwallet.dto.response.BalanceResponse;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
