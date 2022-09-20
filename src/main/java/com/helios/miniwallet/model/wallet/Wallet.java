@@ -36,17 +36,12 @@ public class Wallet {
   @OneToMany(mappedBy = "wallet", cascade = CascadeType.REMOVE)
   private List<WalletTransactionHistory> transactionHistory;
 
+  public Wallet() {}
+
   public Wallet(User user, long availableBalance) {
 
     this.user = user;
     this.availableBalance = availableBalance;
-  }
-
-  public Wallet(long id, long availableBalance, Timestamp walletTimestamp) {
-
-    this.id = id;
-    this.availableBalance = availableBalance;
-    this.walletTimestamp = walletTimestamp;
   }
 
   public long getId() {
@@ -54,9 +49,9 @@ public class Wallet {
     return id;
   }
 
-  public Timestamp getWalletTimestamp() {
+  public void setId(long id) {
 
-    return walletTimestamp;
+    this.id = id;
   }
 
   public long getAvailableBalance() {
@@ -69,8 +64,46 @@ public class Wallet {
     this.availableBalance = availableBalance;
   }
 
+  public Timestamp getWalletTimestamp() {
+
+    return walletTimestamp;
+  }
+
+  public void setWalletTimestamp(Timestamp walletTimestamp) {
+
+    this.walletTimestamp = walletTimestamp;
+  }
+
+  public User getUser() {
+
+    return user;
+  }
+
+  public void setUser(User user) {
+
+    this.user = user;
+  }
+
   public List<WalletTransactionHistory> getTransactionHistory() {
 
     return transactionHistory;
+  }
+
+  public void setTransactionHistory(List<WalletTransactionHistory> transactionHistory) {
+
+    this.transactionHistory = transactionHistory;
+  }
+
+  @Override
+  public String toString() {
+
+    return "Wallet{"
+        + "id="
+        + id
+        + ", availableBalance="
+        + availableBalance
+        + ", walletTimestamp="
+        + walletTimestamp
+        + '}';
   }
 }

@@ -5,6 +5,7 @@ import com.helios.miniwallet.dto.response.MiniWalletResponse;
 import com.helios.miniwallet.dto.response.MiniWalletSuccessNewUserCreateResponse;
 import com.helios.miniwallet.dto.response.MiniWalletUserAlreadyExistsResponse;
 import com.helios.miniwallet.exception.user.MiniWalletUserAlreadyExistsException;
+import com.helios.miniwallet.model.user.User;
 import com.helios.miniwallet.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,9 +36,9 @@ public class UserController {
 
     try {
 
-      userService.createUser(newUser.getUsername(), newUser.getPassword());
+      User user = userService.createUser(newUser.getUsername(), newUser.getPassword());
 
-      return new MiniWalletSuccessNewUserCreateResponse(newUser.getUsername());
+      return new MiniWalletSuccessNewUserCreateResponse(user.getUserId(), user.getUsername());
 
     } catch (MiniWalletUserAlreadyExistsException e) {
 

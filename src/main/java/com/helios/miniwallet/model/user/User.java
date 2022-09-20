@@ -7,22 +7,24 @@ import javax.persistence.*;
 @Entity(name = "mini_wallet_user")
 public class User {
 
+  @Id
+  @Column(name = "user_id")
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private long userId;
+
   @Column(name = "username", nullable = false, unique = true)
-  private final String username;
+  private String username;
 
   @Column(name = "jwt_token")
   private String jwtToken;
 
-  @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
+  @OneToOne(mappedBy = "user")
   private Wallet wallet;
-
-  @Id
-  @Column(name = "user_id", nullable = false, updatable = false)
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private int id;
 
   @Column(name = "password", nullable = false)
   private String password;
+
+  public User() {}
 
   public User(String username, String password) {
 
@@ -30,17 +32,14 @@ public class User {
     this.password = password;
   }
 
-  public User(int id, String username, String password, String jwtToken) {
+  public long getUserId() {
 
-    this.id = id;
-    this.username = username;
-    this.password = password;
-    this.jwtToken = jwtToken;
+    return userId;
   }
 
-  public int getId() {
+  public void setUserId(long userId) {
 
-    return id;
+    this.userId = userId;
   }
 
   public String getUsername() {
@@ -48,14 +47,19 @@ public class User {
     return username;
   }
 
-  public String getPassword() {
+  public void setUsername(String username) {
 
-    return password;
+    this.username = username;
   }
 
-  public void setPassword(String password) {
+  public String getJwtToken() {
 
-    this.password = password;
+    return jwtToken;
+  }
+
+  public void setJwtToken(String jwtToken) {
+
+    this.jwtToken = jwtToken;
   }
 
   public Wallet getWallet() {
@@ -68,13 +72,28 @@ public class User {
     this.wallet = wallet;
   }
 
-  public String getJwtToken() {
+  public String getPassword() {
 
-    return jwtToken;
+    return password;
   }
 
-  public void setJwtToken(String jwtToken) {
+  public void setPassword(String password) {
 
-    this.jwtToken = jwtToken;
+    this.password = password;
+  }
+
+  @Override
+  public String toString() {
+
+    return "User{"
+        + "userId="
+        + userId
+        + ", username='"
+        + username
+        + '\''
+        + ", password='"
+        + password
+        + '\''
+        + '}';
   }
 }

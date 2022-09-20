@@ -5,7 +5,7 @@ create database if not exists mini_wallet;
 use mini_wallet;
 
 CREATE TABLE IF NOT EXISTS mini_wallet_user (
-    user_id BIGINT,
+    user_id BIGINT AUTO_INCREMENT,
     username VARCHAR(255) NOT NULL,
     password VARCHAR(80) NOT NULL,
     jwt_token TEXT,
@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS mini_wallet_user (
 );
  
 CREATE TABLE IF NOT EXISTS wallet (
-    wallet_id BIGINT,
+    wallet_id BIGINT AUTO_INCREMENT,
     wallet_timestamp DATETIME(6),
     available_balance BIGINT NOT NULL,
     user_id BIGINT,
@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS wallet (
 );
  
 CREATE TABLE IF NOT EXISTS wallet_transaction_history (
-    wallet_transaction_id BIGINT,
+    wallet_transaction_id BIGINT AUTO_INCREMENT,
     wallet_transaction_timestamp DATETIME(6),
     wallet_transaction_action VARCHAR(255) NOT NULL,
     wallet_id BIGINT,
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS wallet_transaction_history (
 );
 
 CREATE TABLE wallet_minium_balance (
-    wallet_minimum_balance_id BIGINT,
+    wallet_minimum_balance_id BIGINT AUTO_INCREMENT,
     minimum_balance BIGINT NOT NULL,
     wallet_id BIGINT,
     CONSTRAINT wallet_minium_balance_pk_wallet_minimum_balance_id PRIMARY KEY (wallet_minimum_balance_id),
@@ -47,7 +47,7 @@ CREATE TABLE wallet_minium_balance (
 );
 
 CREATE TABLE wallet_transaction_action (
-    tranaction_action_id BIGINT,
+    tranaction_action_id BIGINT AUTO_INCREMENT,
     transaction_action VARCHAR(255) NOT NULL,
     CONSTRAINT wallet_transaction_action_pk_tranaction_action_id PRIMARY KEY (tranaction_action_id),
     CONSTRAINT wallet_transaction_action_un_transaction_action UNIQUE KEY (transaction_action)

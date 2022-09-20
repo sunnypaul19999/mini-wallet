@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
       isolation = Isolation.SERIALIZABLE,
       propagation = Propagation.REQUIRES_NEW,
       rollbackFor = {MiniWalletUserAlreadyExistsException.class})
-  public void createUser(String username, String password)
+  public User createUser(String username, String password)
       throws MiniWalletUserAlreadyExistsException {
 
     if (userRepo.existsByUsername(username)) {
@@ -44,7 +44,9 @@ public class UserServiceImpl implements UserService {
 
     user = userRepo.save(user);
 
-    walletService.createNewWallet(user);
+    //    walletService.createNewWallet(user);
+
+    return user;
   }
 
   @Override

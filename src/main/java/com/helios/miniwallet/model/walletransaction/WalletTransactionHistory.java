@@ -11,15 +11,15 @@ public class WalletTransactionHistory {
   @Id
   @Column(name = "wallet_transaction_id", nullable = false, updatable = false)
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private final long id;
-
-  @Version
-  @Column(name = "wallet_transaction_timestamp", nullable = false)
-  private final Timestamp walletTransactionTimestamp;
+  private long id;
 
   @Enumerated(value = EnumType.STRING)
   @Column(name = "wallet_transaction_action", nullable = false, updatable = false)
-  private final WalletTransactionAction action;
+  private WalletTransactionAction action;
+
+  @Version
+  @Column(name = "wallet_transaction_timestamp", nullable = false)
+  private Timestamp walletTransactionTimestamp;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(
@@ -29,17 +29,26 @@ public class WalletTransactionHistory {
       updatable = false)
   private Wallet wallet;
 
-  public WalletTransactionHistory(
-      long id, Timestamp walletTransactionTimestamp, WalletTransactionAction action) {
-
-    this.id = id;
-    this.walletTransactionTimestamp = walletTransactionTimestamp;
-    this.action = action;
-  }
+  public WalletTransactionHistory() {}
 
   public long getId() {
 
     return id;
+  }
+
+  public void setId(long id) {
+
+    this.id = id;
+  }
+
+  public WalletTransactionAction getAction() {
+
+    return action;
+  }
+
+  public void setAction(WalletTransactionAction action) {
+
+    this.action = action;
   }
 
   public Timestamp getWalletTransactionTimestamp() {
@@ -47,9 +56,9 @@ public class WalletTransactionHistory {
     return walletTransactionTimestamp;
   }
 
-  public WalletTransactionAction getAction() {
+  public void setWalletTransactionTimestamp(Timestamp walletTransactionTimestamp) {
 
-    return action;
+    this.walletTransactionTimestamp = walletTransactionTimestamp;
   }
 
   public Wallet getWallet() {
@@ -60,5 +69,18 @@ public class WalletTransactionHistory {
   public void setWallet(Wallet wallet) {
 
     this.wallet = wallet;
+  }
+
+  @Override
+  public String toString() {
+
+    return "WalletTransactionHistory{"
+        + "id="
+        + id
+        + ", action="
+        + action
+        + ", walletTransactionTimestamp="
+        + walletTransactionTimestamp
+        + '}';
   }
 }

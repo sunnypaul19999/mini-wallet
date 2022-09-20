@@ -6,7 +6,7 @@ import com.helios.miniwallet.model.user.User;
 
 public interface UserService {
 
-  void createUser(String username, String password) throws MiniWalletUserAlreadyExistsException;
+  User createUser(String username, String password) throws MiniWalletUserAlreadyExistsException;
 
   User findUser(String username) throws MiniWalletUserNotFoundException;
 }
