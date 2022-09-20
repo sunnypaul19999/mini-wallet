@@ -12,6 +12,8 @@ public interface WalletService {
 
   Wallet createNewWallet(User user);
 
+  Wallet getWallet(String username) throws MiniWalletUserNotFoundException;
+
   long availableBalance(String username) throws MiniWalletUserNotFoundException;
 
   Wallet debitAmt(MiniWalletRequestDebit debitRequest)

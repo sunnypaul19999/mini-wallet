@@ -1,10 +1,13 @@
 package com.helios.miniwallet.service.impl;
 
+import com.helios.miniwallet.exception.user.MiniWalletUserNotFoundException;
 import com.helios.miniwallet.model.wallet.Wallet;
 import com.helios.miniwallet.model.walletransaction.WalletTransactionAction;
 import com.helios.miniwallet.model.walletransaction.WalletTransactionHistory;
 import com.helios.miniwallet.repository.WalletTransactionHistoryRepo;
+import com.helios.miniwallet.service.WalletService;
 import com.helios.miniwallet.service.WalletTransactionHistoryService;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,9 +19,13 @@ public class WalletTransactionHistoryImpl implements WalletTransactionHistorySer
 
   private final WalletTransactionHistoryRepo walletTransactionHistoryRepo;
 
-  public WalletTransactionHistoryImpl(WalletTransactionHistoryRepo walletTransactionHistoryRepo) {
+  private final WalletService walletService;
+
+  public WalletTransactionHistoryImpl(
+      WalletTransactionHistoryRepo walletTransactionHistoryRepo, WalletService walletService) {
 
     this.walletTransactionHistoryRepo = walletTransactionHistoryRepo;
+    this.walletService = walletService;
   }
 
   @Transactional(propagation = Propagation.MANDATORY)
@@ -49,8 +56,12 @@ public class WalletTransactionHistoryImpl implements WalletTransactionHistorySer
     walletTransactionHistoryRepo.save(walletTransaction);
   }
 
-  public List<WalletTransactionHistory> getTransactionHistory(Wallet wallet) {
+  public List<WalletTransactionHistory> getTransactionHistory(String username)
+      throws MiniWalletUserNotFoundException {
 
-    return walletTransactionHistoryRepo.findByWalletWalletId(wallet.getWalletId());
+    Wallet wallet = walletService.getWallet(username);
+
+    return walletTransactionHistoryRepo.findByWalletWalletId(
+        wallet.getWalletId(), Sort.by(Sort.Order.desc("walletTransactionTimestamp")));
   }
 }

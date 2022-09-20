@@ -1,5 +1,6 @@
 package com.helios.miniwallet.service;
 
+import com.helios.miniwallet.exception.user.MiniWalletUserNotFoundException;
 import com.helios.miniwallet.model.wallet.Wallet;
 import com.helios.miniwallet.model.walletransaction.WalletTransactionAction;
 import com.helios.miniwallet.model.walletransaction.WalletTransactionHistory;
@@ -11,5 +12,5 @@ public interface WalletTransactionHistoryService {
   void createTransaction(
       Wallet wallet, long transactionAmount, WalletTransactionAction transactionAction);
 
-  List<WalletTransactionHistory> getTransactionHistory(Wallet wallet);
+  List<WalletTransactionHistory> getTransactionHistory(String username) throws MiniWalletUserNotFoundException;
 }

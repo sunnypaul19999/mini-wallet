@@ -12,13 +12,13 @@ import com.helios.miniwallet.repository.WalletRepo;
 import com.helios.miniwallet.service.UserService;
 import com.helios.miniwallet.service.WalletService;
 import com.helios.miniwallet.service.WalletTransactionHistoryService;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
-import java.util.Optional;
 
 @Service
 public class WalletServiceImpl implements WalletService {
@@ -32,7 +32,7 @@ public class WalletServiceImpl implements WalletService {
   WalletServiceImpl(
       UserService userService,
       WalletRepo walletRepo,
-      WalletTransactionHistoryService walletTransactionHistoryService) {
+      @Lazy WalletTransactionHistoryService walletTransactionHistoryService) {
 
     this.userService = userService;
     this.walletRepo = walletRepo;
@@ -40,11 +40,11 @@ public class WalletServiceImpl implements WalletService {
   }
 
   @Transactional(propagation = Propagation.REQUIRED)
-  private Optional<Wallet> getWallet(String username) throws MiniWalletUserNotFoundException {
+  public Wallet getWallet(String username) throws MiniWalletUserNotFoundException {
 
     User user = userService.findUser(username);
 
-    return walletRepo.findByUserUserId(user.getUserId());
+    return walletRepo.findByUserUserId(user.getUserId()).get();
   }
 
   @Override
@@ -62,7 +62,7 @@ public class WalletServiceImpl implements WalletService {
   @Transactional(propagation = Propagation.REQUIRED)
   public long availableBalance(String username) throws MiniWalletUserNotFoundException {
 
-    return getWallet(username).get().getAvailableBalance();
+    return getWallet(username).getAvailableBalance();
   }
 
   @Override
@@ -71,7 +71,7 @@ public class WalletServiceImpl implements WalletService {
       throws MiniWalletUserNotFoundException, MiniWalletInvalidTransactionAmountException,
           MiniWalletMinimumBalanceException {
 
-    Wallet wallet = getWallet(debitRequest.getUsername()).get();
+    Wallet wallet = getWallet(debitRequest.getUsername());
 
     long onDebitBalance = wallet.getAvailableBalance() - debitRequest.getAmt();
 
@@ -103,7 +103,7 @@ public class WalletServiceImpl implements WalletService {
   public Wallet creditAmt(MiniWalletRequestCredit creditRequest)
       throws MiniWalletUserNotFoundException {
 
-    Wallet wallet = getWallet(creditRequest.getUsername()).get();
+    Wallet wallet = getWallet(creditRequest.getUsername());
 
     wallet.setAvailableBalance(wallet.getAvailableBalance() + creditRequest.getAmt());
 

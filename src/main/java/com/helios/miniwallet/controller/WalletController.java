@@ -7,7 +7,9 @@ import com.helios.miniwallet.exception.user.MiniWalletUserNotFoundException;
 import com.helios.miniwallet.exception.wallet.MiniWalletInvalidTransactionAmountException;
 import com.helios.miniwallet.exception.wallet.MiniWalletMinimumBalanceException;
 import com.helios.miniwallet.model.wallet.Wallet;
+import com.helios.miniwallet.model.walletransaction.WalletTransactionHistory;
 import com.helios.miniwallet.service.WalletService;
+import com.helios.miniwallet.service.WalletTransactionHistoryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.Date;
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "/user/acct")
@@ -24,9 +27,14 @@ public class WalletController {
 
   private final WalletService walletService;
 
-  public WalletController(WalletService walletService) {
+  private final WalletTransactionHistoryService walletTransactionHistoryService;
+
+  public WalletController(
+      WalletService walletService,
+      WalletTransactionHistoryService walletTransactionHistoryService) {
 
     this.walletService = walletService;
+    this.walletTransactionHistoryService = walletTransactionHistoryService;
   }
 
   @GetMapping(path = "/balance")
@@ -85,6 +93,34 @@ public class WalletController {
       return new MiniWalletResponseFailureOnDebit(
           debitRequest.getAmt(), new Date().getTime(), "Wallet does not minimum balance");
     }
+  }
+
+  @GetMapping(path = "/transaction/all")
+  public List<MiniWalletResponse> fetchWalletTransactionHistory(
+      HttpServletResponse httpServletResponse,
+      @Valid @RequestBody MiniWalletRequestCredit creditRequest,
+      BindingResult bindingResult)
+      throws MiniWalletUserNotFoundException {
+
+    final UserDetails userDetails =
+        (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+    List<WalletTransactionHistory> transactionHistoryList =
+        walletTransactionHistoryService.getTransactionHistory(userDetails.getUsername());
+
+    List<MiniWalletResponse> walletTransactions =
+        transactionHistoryList.stream()
+            .map(
+                (transactionHistory) ->
+                    (MiniWalletResponse)
+                        (new MiniWalletResponseSuccessTransactionHistory(
+                            transactionHistory.getId(),
+                            transactionHistory.getWalletTransactionAmount(),
+                            transactionHistory.getWalletTransactionTimestamp().getTime(),
+                            transactionHistory.getWalletTransactionBalance())))
+            .toList();
+
+    return walletTransactions;
   }
 
   @GetMapping(path = "/debug")

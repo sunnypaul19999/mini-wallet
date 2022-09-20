@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalController {
 
-  @ExceptionHandler(value = {MiniWalletUserNotFoundException.class})
+  @ExceptionHandler(value = MiniWalletUserNotFoundException.class)
   @ResponseStatus(code = HttpStatus.NOT_FOUND)
   public MiniWalletResponse userNotFoundExceptionHandler(MiniWalletUserNotFoundException e) {
 
