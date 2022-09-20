@@ -1,9 +1,8 @@
 package com.helios.miniwallet.controller;
 
-import com.helios.miniwallet.dto.request.MiniWalletNewUserRequest;
+import com.helios.miniwallet.dto.request.MiniWalletRequestNewUser;
 import com.helios.miniwallet.dto.response.MiniWalletResponse;
-import com.helios.miniwallet.dto.response.MiniWalletSuccessNewUserCreateResponse;
-import com.helios.miniwallet.dto.response.MiniWalletUserAlreadyExistsResponse;
+import com.helios.miniwallet.dto.response.MiniWalletResponseSuccessNewUserCreate;
 import com.helios.miniwallet.exception.user.MiniWalletUserAlreadyExistsException;
 import com.helios.miniwallet.model.user.User;
 import com.helios.miniwallet.service.UserService;
@@ -31,21 +30,13 @@ public class UserController {
   @PostMapping(path = "/create")
   public MiniWalletResponse createMiniWalletUser(
       HttpServletResponse httpServletResponse,
-      @Valid @RequestBody MiniWalletNewUserRequest newUser,
-      BindingResult bindingResult) {
+      @Valid @RequestBody MiniWalletRequestNewUser newUser,
+      BindingResult bindingResult)
+      throws MiniWalletUserAlreadyExistsException {
 
-    try {
+    User user = userService.createUser(newUser.getUsername(), newUser.getPassword());
 
-      User user = userService.createUser(newUser.getUsername(), newUser.getPassword());
-
-      return new MiniWalletSuccessNewUserCreateResponse(user.getUserId(), user.getUsername());
-
-    } catch (MiniWalletUserAlreadyExistsException e) {
-
-      httpServletResponse.setStatus(409);
-
-      return new MiniWalletUserAlreadyExistsResponse(newUser.getUsername());
-    }
+    return new MiniWalletResponseSuccessNewUserCreate(user.getUserId(), user.getUsername());
   }
 
   @GetMapping(path = "/debug")

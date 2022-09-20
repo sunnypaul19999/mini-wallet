@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
 
     user = userRepo.save(user);
 
-    //    walletService.createNewWallet(user);
+    walletService.createNewWallet(user);
 
     return user;
   }

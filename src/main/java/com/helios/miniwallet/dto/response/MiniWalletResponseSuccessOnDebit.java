@@ -2,12 +2,12 @@ package com.helios.miniwallet.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class MiniWalletSuccessOnDebitResponse implements MiniWalletResponse {
+public class MiniWalletResponseSuccessOnDebit implements MiniWalletResponse {
 
   @JsonProperty(access = JsonProperty.Access.READ_ONLY, required = true)
   private final String message;
 
-  public MiniWalletSuccessOnDebitResponse(String message) {
+  public MiniWalletResponseSuccessOnDebit(String message) {
 
     this.message = message;
   }

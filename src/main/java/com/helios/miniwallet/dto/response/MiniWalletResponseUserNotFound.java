@@ -2,14 +2,14 @@ package com.helios.miniwallet.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class MiniWalletUserAlreadyExistsResponse implements MiniWalletResponse {
+public class MiniWalletResponseUserNotFound {
 
   @JsonProperty(access = JsonProperty.Access.READ_ONLY)
   private final String message;
 
-  public MiniWalletUserAlreadyExistsResponse(String username) {
+  public MiniWalletResponseUserNotFound(String message) {
 
-    this.message = String.format("User with username %s already exists", username);
+    this.message = message;
   }
 
   public String getMessage() {

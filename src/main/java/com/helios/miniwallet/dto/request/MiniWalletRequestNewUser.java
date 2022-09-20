@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.validation.constraints.NotNull;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class MiniWalletNewUserRequest implements MiniWalletRequest {
+public class MiniWalletRequestNewUser implements MiniWalletRequest {
 
   @NotNull
   @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
@@ -16,7 +16,7 @@ public class MiniWalletNewUserRequest implements MiniWalletRequest {
   @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
   private String password;
 
-  public MiniWalletNewUserRequest(String username, String password) {
+  public MiniWalletRequestNewUser(String username, String password) {
 
     this.username = username;
     this.password = password;

@@ -1,15 +1,19 @@
 package com.helios.miniwallet.service.impl;
 
-import com.helios.miniwallet.dto.request.MiniWalletCreditRequest;
-import com.helios.miniwallet.dto.request.MiniWalletDebitRequest;
+import com.helios.miniwallet.dto.request.MiniWalletRequestCredit;
+import com.helios.miniwallet.dto.request.MiniWalletRequestDebit;
+import com.helios.miniwallet.exception.user.MiniWalletUserNotFoundException;
 import com.helios.miniwallet.model.user.User;
 import com.helios.miniwallet.model.wallet.Wallet;
 import com.helios.miniwallet.repository.WalletRepo;
 import com.helios.miniwallet.service.UserService;
 import com.helios.miniwallet.service.WalletService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Service
 public class WalletServiceImpl implements WalletService {
@@ -24,8 +28,16 @@ public class WalletServiceImpl implements WalletService {
     this.walletRepo = walletRepo;
   }
 
+  @Transactional(propagation = Propagation.REQUIRED)
+  private Optional<Wallet> getWallet(String username) throws MiniWalletUserNotFoundException {
+
+    User user = userService.findUser(username);
+
+    return walletRepo.findByUserUserId(user.getUserId());
+  }
+
   @Override
-  @Transactional(value = Transactional.TxType.MANDATORY)
+  @Transactional(propagation = Propagation.MANDATORY)
   public Wallet createNewWallet(User user) {
 
     Wallet wallet = new Wallet(user, 0);
@@ -36,14 +48,32 @@ public class WalletServiceImpl implements WalletService {
   }
 
   @Override
-  public int availableBalance(String username) {
+  @Transactional(propagation = Propagation.REQUIRED)
+  public long availableBalance(String username) throws MiniWalletUserNotFoundException {
 
-    return 0;
+    return getWallet(username).get().getAvailableBalance();
   }
 
   @Override
-  public void debitAmt(MiniWalletDebitRequest debitRequest) {}
+  @Transactional(isolation = Isolation.REPEATABLE_READ, propagation = Propagation.REQUIRES_NEW)
+  public void debitAmt(MiniWalletRequestDebit debitRequest) throws MiniWalletUserNotFoundException {
+
+    Wallet wallet = getWallet(debitRequest.getUsername()).get();
+
+    wallet.setAvailableBalance(wallet.getAvailableBalance() - debitRequest.getAmt());
+
+    walletRepo.save(wallet);
+  }
 
   @Override
-  public void creditAmt(MiniWalletCreditRequest creditRequest) {}
+  @Transactional(isolation = Isolation.REPEATABLE_READ, propagation = Propagation.REQUIRES_NEW)
+  public void creditAmt(MiniWalletRequestCredit creditRequest)
+      throws MiniWalletUserNotFoundException {
+
+    Wallet wallet = getWallet(creditRequest.getUsername()).get();
+
+    wallet.setAvailableBalance(wallet.getAvailableBalance() + creditRequest.getAmt());
+
+    walletRepo.save(wallet);
+  }
 }

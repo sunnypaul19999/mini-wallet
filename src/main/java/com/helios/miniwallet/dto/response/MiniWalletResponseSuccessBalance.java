@@ -2,13 +2,13 @@ package com.helios.miniwallet.dto.response;
 
 import javax.validation.constraints.NotNull;
 
-public class MiniWalletSuccessBalanceResponse implements MiniWalletResponse {
+public class MiniWalletResponseSuccessBalance implements MiniWalletResponse {
 
   @NotNull private final long balance;
 
   @NotNull private final String message;
 
-  public MiniWalletSuccessBalanceResponse(long balance, String message) {
+  public MiniWalletResponseSuccessBalance(long balance, String message) {
 
     this.balance = balance;
     this.message = message;

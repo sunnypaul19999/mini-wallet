@@ -14,7 +14,7 @@ public class Wallet {
   @Id
   @Column(name = "wallet_id", nullable = false, updatable = false)
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private long id;
+  private long walletId;
 
   @Min(value = 0)
   @Column(name = "available_balance", nullable = false)
@@ -44,14 +44,14 @@ public class Wallet {
     this.availableBalance = availableBalance;
   }
 
-  public long getId() {
+  public long getWalletId() {
 
-    return id;
+    return walletId;
   }
 
-  public void setId(long id) {
+  public void setWalletId(long walletId) {
 
-    this.id = id;
+    this.walletId = walletId;
   }
 
   public long getAvailableBalance() {
@@ -99,7 +99,7 @@ public class Wallet {
 
     return "Wallet{"
         + "id="
-        + id
+        + walletId
         + ", availableBalance="
         + availableBalance
         + ", walletTimestamp="

@@ -3,7 +3,7 @@ package com.helios.miniwallet.dto.response;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.core.annotation.Order;
 
-public class MiniWalletSuccessNewUserCreateResponse implements MiniWalletResponse {
+public class MiniWalletResponseSuccessNewUserCreate implements MiniWalletResponse {
 
   @Order(1)
   @JsonProperty(access = JsonProperty.Access.READ_ONLY)
@@ -17,7 +17,7 @@ public class MiniWalletSuccessNewUserCreateResponse implements MiniWalletRespons
   @JsonProperty(access = JsonProperty.Access.READ_ONLY)
   private final String message;
 
-  public MiniWalletSuccessNewUserCreateResponse(long userId, String username) {
+  public MiniWalletResponseSuccessNewUserCreate(long userId, String username) {
 
     this.userId = userId;
     this.username = username;
