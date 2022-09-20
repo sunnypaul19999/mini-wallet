@@ -7,24 +7,34 @@ import javax.persistence.*;
 @Entity(name = "mini_wallet_user")
 public class User {
 
-  @Id
-  @Column(name = "user_id", nullable = false, updatable = false)
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private final int id;
-
   @Column(name = "username", nullable = false, unique = true)
   private final String username;
 
   @Column(name = "jwt_token")
-  private final String jwtToken;
+  private String jwtToken;
 
   @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
   private Wallet wallet;
 
-  public User(int id, String username, String jwtToken) {
+  @Id
+  @Column(name = "user_id", nullable = false, updatable = false)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private int id;
+
+  @Column(name = "password", nullable = false)
+  private String password;
+
+  public User(String username, String password) {
+
+    this.username = username;
+    this.password = password;
+  }
+
+  public User(int id, String username, String password, String jwtToken) {
 
     this.id = id;
     this.username = username;
+    this.password = password;
     this.jwtToken = jwtToken;
   }
 
@@ -36,6 +46,16 @@ public class User {
   public String getUsername() {
 
     return username;
+  }
+
+  public String getPassword() {
+
+    return password;
+  }
+
+  public void setPassword(String password) {
+
+    this.password = password;
   }
 
   public Wallet getWallet() {
@@ -51,5 +71,10 @@ public class User {
   public String getJwtToken() {
 
     return jwtToken;
+  }
+
+  public void setJwtToken(String jwtToken) {
+
+    this.jwtToken = jwtToken;
   }
 }

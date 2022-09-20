@@ -8,7 +8,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class CreditRequest implements WalletRequest {
+public class CreditRequest implements MiniWalletRequest {
 
   @Min(value = 1, message = "credit value should be greater than 0")
   @JsonProperty(access = JsonProperty.Access.READ_ONLY, required = true)

@@ -2,7 +2,7 @@ package com.helios.miniwallet.dto.response;
 
 import javax.validation.constraints.NotNull;
 
-public class BalanceResponse implements WalletResponse {
+public class BalanceResponse implements MiniWalletResponse {
 
   @NotNull private final long balance;
 

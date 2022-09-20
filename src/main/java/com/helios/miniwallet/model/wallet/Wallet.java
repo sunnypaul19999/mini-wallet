@@ -14,17 +14,17 @@ public class Wallet {
   @Id
   @Column(name = "wallet_id", nullable = false, updatable = false)
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private final long id;
-
-  @Version
-  @Column(name = "wallet_timestamp", nullable = false)
-  private final Timestamp walletTimestamp;
+  private long id;
 
   @Min(value = 0)
   @Column(name = "available_balance", nullable = false)
   private long availableBalance;
 
-  @OneToOne
+  @Version
+  @Column(name = "wallet_timestamp", nullable = false)
+  private Timestamp walletTimestamp;
+
+  @OneToOne(fetch = FetchType.LAZY)
   @JoinColumn(
       name = "user_id",
       referencedColumnName = "user_id",
@@ -36,9 +36,16 @@ public class Wallet {
   @OneToMany(mappedBy = "wallet", cascade = CascadeType.REMOVE)
   private List<WalletTransactionHistory> transactionHistory;
 
-  public Wallet(long id, Timestamp walletTimestamp) {
+  public Wallet(User user, long availableBalance) {
+
+    this.user = user;
+    this.availableBalance = availableBalance;
+  }
+
+  public Wallet(long id, long availableBalance, Timestamp walletTimestamp) {
 
     this.id = id;
+    this.availableBalance = availableBalance;
     this.walletTimestamp = walletTimestamp;
   }
 
@@ -65,10 +72,5 @@ public class Wallet {
   public List<WalletTransactionHistory> getTransactionHistory() {
 
     return transactionHistory;
-  }
-
-  public void setTransactionHistory(List<WalletTransactionHistory> transactionHistory) {
-
-    this.transactionHistory = transactionHistory;
   }
 }

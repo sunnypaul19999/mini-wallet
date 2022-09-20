@@ -2,7 +2,7 @@ package com.helios.miniwallet.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class CreditResponse implements WalletResponse {
+public class CreditResponse implements MiniWalletResponse {
 
   @JsonProperty(access = JsonProperty.Access.READ_ONLY, required = true)
   private final String message;
