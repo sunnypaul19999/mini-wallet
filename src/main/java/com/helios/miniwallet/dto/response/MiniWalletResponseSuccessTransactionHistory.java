@@ -1,6 +1,7 @@
 package com.helios.miniwallet.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.helios.miniwallet.model.walletransaction.WalletTransactionAction;
 
 public class MiniWalletResponseSuccessTransactionHistory implements MiniWalletResponse {
 
@@ -16,16 +17,21 @@ public class MiniWalletResponseSuccessTransactionHistory implements MiniWalletRe
   @JsonProperty(access = JsonProperty.Access.READ_ONLY)
   private final long transactionBalance;
 
+  @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+  private final WalletTransactionAction transactionAction;
+
   public MiniWalletResponseSuccessTransactionHistory(
       long transactionId,
       long transactionAmount,
       long transactionTimestamp,
-      long transactionBalance) {
+      long transactionBalance,
+      WalletTransactionAction transactionAction) {
 
     this.transactionId = transactionId;
     this.transactionAmount = transactionAmount;
     this.transactionTimestamp = transactionTimestamp;
     this.transactionBalance = transactionBalance;
+    this.transactionAction = transactionAction;
   }
 
   public long getTransactionId() {
@@ -46,5 +52,10 @@ public class MiniWalletResponseSuccessTransactionHistory implements MiniWalletRe
   public long getTransactionBalance() {
 
     return transactionBalance;
+  }
+
+  public WalletTransactionAction getTransactionAction() {
+
+    return transactionAction;
   }
 }

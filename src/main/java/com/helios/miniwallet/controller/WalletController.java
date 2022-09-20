@@ -97,7 +97,7 @@ public class WalletController {
 
     List<WalletTransactionHistory> transactionHistoryList =
         walletTransactionHistoryService.getTransactionHistory(getUsername());
-  
+
     return transactionHistoryList.stream()
         .map(
             (transactionHistory) ->
@@ -106,7 +106,8 @@ public class WalletController {
                         transactionHistory.getId(),
                         transactionHistory.getWalletTransactionAmount(),
                         transactionHistory.getWalletTransactionTimestamp().getTime(),
-                        transactionHistory.getWalletTransactionBalance())))
+                        transactionHistory.getWalletTransactionBalance(),
+                        transactionHistory.getAction())))
         .toList();
   }
 
