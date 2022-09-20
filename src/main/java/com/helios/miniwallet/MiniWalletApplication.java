@@ -1,9 +1,11 @@
 package com.helios.miniwallet;
 
+import com.helios.miniwallet.security.authentication.provider.MiniWalletBasicAuthenticationProvider;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
@@ -66,6 +68,8 @@ public class MiniWalletApplication {
 
     http.cors().disable();
 
+    http.authenticationProvider(miniWalletBasicAuthenticationProvider());
+
     http.authorizeRequests()
         .mvcMatchers("**/user/create", "**/user/debug")
         .permitAll()
@@ -75,6 +79,12 @@ public class MiniWalletApplication {
     http.httpBasic();
 
     return http.build();
+  }
+
+  @Bean
+  public AuthenticationProvider miniWalletBasicAuthenticationProvider() {
+
+    return new MiniWalletBasicAuthenticationProvider();
   }
 
   @Bean

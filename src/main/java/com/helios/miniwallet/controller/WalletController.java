@@ -12,7 +12,6 @@ import com.helios.miniwallet.service.WalletService;
 import com.helios.miniwallet.service.WalletTransactionHistoryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,10 +40,10 @@ public class WalletController {
   public MiniWalletResponse fetchBalance(HttpServletResponse httpServletResponse)
       throws MiniWalletUserNotFoundException {
 
-    final UserDetails userDetails =
-        (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    final String userDetails =
+        (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-    long availableBalance = walletService.availableBalance(userDetails.getUsername());
+    long availableBalance = walletService.availableBalance(userDetails);
 
     return new MiniWalletResponseSuccessBalance(availableBalance, "Balance fetched successfully");
   }
@@ -56,10 +55,7 @@ public class WalletController {
       BindingResult bindingResult)
       throws MiniWalletUserNotFoundException {
 
-    final UserDetails userDetails =
-        (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-    creditRequest.setUsername(userDetails.getUsername());
+    creditRequest.setUsername(getUsername());
 
     Wallet wallet = walletService.creditAmt(creditRequest);
 
@@ -74,10 +70,7 @@ public class WalletController {
       BindingResult bindingResult)
       throws MiniWalletUserNotFoundException, MiniWalletInvalidTransactionAmountException {
 
-    final UserDetails userDetails =
-        (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-    debitRequest.setUsername(userDetails.getUsername());
+    debitRequest.setUsername(getUsername());
 
     try {
 
@@ -102,25 +95,24 @@ public class WalletController {
       BindingResult bindingResult)
       throws MiniWalletUserNotFoundException {
 
-    final UserDetails userDetails =
-        (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
     List<WalletTransactionHistory> transactionHistoryList =
-        walletTransactionHistoryService.getTransactionHistory(userDetails.getUsername());
+        walletTransactionHistoryService.getTransactionHistory(getUsername());
+  
+    return transactionHistoryList.stream()
+        .map(
+            (transactionHistory) ->
+                (MiniWalletResponse)
+                    (new MiniWalletResponseSuccessTransactionHistory(
+                        transactionHistory.getId(),
+                        transactionHistory.getWalletTransactionAmount(),
+                        transactionHistory.getWalletTransactionTimestamp().getTime(),
+                        transactionHistory.getWalletTransactionBalance())))
+        .toList();
+  }
 
-    List<MiniWalletResponse> walletTransactions =
-        transactionHistoryList.stream()
-            .map(
-                (transactionHistory) ->
-                    (MiniWalletResponse)
-                        (new MiniWalletResponseSuccessTransactionHistory(
-                            transactionHistory.getId(),
-                            transactionHistory.getWalletTransactionAmount(),
-                            transactionHistory.getWalletTransactionTimestamp().getTime(),
-                            transactionHistory.getWalletTransactionBalance())))
-            .toList();
+  private String getUsername() {
 
-    return walletTransactions;
+    return (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
   }
 
   @GetMapping(path = "/debug")
