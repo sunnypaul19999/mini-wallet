@@ -5,9 +5,11 @@ import com.helios.miniwallet.dto.request.MiniWalletRequestDebit;
 import com.helios.miniwallet.exception.user.MiniWalletUserNotFoundException;
 import com.helios.miniwallet.model.user.User;
 import com.helios.miniwallet.model.wallet.Wallet;
+import com.helios.miniwallet.model.walletransaction.WalletTransactionAction;
 import com.helios.miniwallet.repository.WalletRepo;
 import com.helios.miniwallet.service.UserService;
 import com.helios.miniwallet.service.WalletService;
+import com.helios.miniwallet.service.WalletTransactionHistoryService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
@@ -22,10 +24,16 @@ public class WalletServiceImpl implements WalletService {
 
   private final WalletRepo walletRepo;
 
-  WalletServiceImpl(UserService userService, WalletRepo walletRepo) {
+  private final WalletTransactionHistoryService walletTransactionHistoryService;
+
+  WalletServiceImpl(
+      UserService userService,
+      WalletRepo walletRepo,
+      WalletTransactionHistoryService walletTransactionHistoryService) {
 
     this.userService = userService;
     this.walletRepo = walletRepo;
+    this.walletTransactionHistoryService = walletTransactionHistoryService;
   }
 
   @Transactional(propagation = Propagation.REQUIRED)
@@ -62,7 +70,9 @@ public class WalletServiceImpl implements WalletService {
 
     wallet.setAvailableBalance(wallet.getAvailableBalance() - debitRequest.getAmt());
 
-    walletRepo.save(wallet);
+    wallet = walletRepo.save(wallet);
+
+    walletTransactionHistoryService.createTransaction(wallet, WalletTransactionAction.DEBIT);
   }
 
   @Override
@@ -74,6 +84,8 @@ public class WalletServiceImpl implements WalletService {
 
     wallet.setAvailableBalance(wallet.getAvailableBalance() + creditRequest.getAmt());
 
-    walletRepo.save(wallet);
+    wallet = walletRepo.save(wallet);
+
+    walletTransactionHistoryService.createTransaction(wallet, WalletTransactionAction.CREDIT);
   }
 }
