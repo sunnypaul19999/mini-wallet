@@ -1,7 +1,7 @@
 package com.helios.miniwallet.service;
 
-import com.helios.miniwallet.dto.request.CreditRequest;
-import com.helios.miniwallet.dto.request.DebitRequest;
+import com.helios.miniwallet.dto.request.MiniWalletCreditRequest;
+import com.helios.miniwallet.dto.request.MiniWalletDebitRequest;
 import com.helios.miniwallet.model.user.User;
 import com.helios.miniwallet.model.wallet.Wallet;
 
@@ -11,7 +11,7 @@ public interface WalletService {
 
   int availableBalance(String username);
 
-  void debitAmt(DebitRequest debitRequest);
+  void debitAmt(MiniWalletDebitRequest debitRequest);
 
-  void creditAmt(CreditRequest creditRequest);
+  void creditAmt(MiniWalletCreditRequest creditRequest);
 }

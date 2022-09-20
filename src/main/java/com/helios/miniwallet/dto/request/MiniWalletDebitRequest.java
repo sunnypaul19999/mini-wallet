@@ -8,7 +8,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class DebitRequest implements MiniWalletRequest {
+public class MiniWalletDebitRequest implements MiniWalletRequest {
 
   @Min(value = 1, message = "debit value should be greater than 0")
   @JsonProperty(access = JsonProperty.Access.READ_ONLY, required = true)
@@ -16,7 +16,7 @@ public class DebitRequest implements MiniWalletRequest {
 
   @JsonIgnore @NotNull private String username;
 
-  public DebitRequest(long amt) {
+  public MiniWalletDebitRequest(long amt) {
 
     this.amt = amt;
   }

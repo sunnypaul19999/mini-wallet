@@ -1,7 +1,7 @@
 package com.helios.miniwallet.service.impl;
 
-import com.helios.miniwallet.dto.request.CreditRequest;
-import com.helios.miniwallet.dto.request.DebitRequest;
+import com.helios.miniwallet.dto.request.MiniWalletCreditRequest;
+import com.helios.miniwallet.dto.request.MiniWalletDebitRequest;
 import com.helios.miniwallet.model.user.User;
 import com.helios.miniwallet.model.wallet.Wallet;
 import com.helios.miniwallet.repository.WalletRepo;
@@ -42,8 +42,8 @@ public class WalletServiceImpl implements WalletService {
   }
 
   @Override
-  public void debitAmt(DebitRequest debitRequest) {}
+  public void debitAmt(MiniWalletDebitRequest debitRequest) {}
 
   @Override
-  public void creditAmt(CreditRequest creditRequest) {}
+  public void creditAmt(MiniWalletCreditRequest creditRequest) {}
 }

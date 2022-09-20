@@ -1,6 +1,6 @@
 package com.helios.miniwallet.controller;
 
-import com.helios.miniwallet.dto.request.NewMiniWalletUser;
+import com.helios.miniwallet.dto.request.MiniWalletNewUserRequest;
 import com.helios.miniwallet.dto.response.MiniWalletResponse;
 import com.helios.miniwallet.dto.response.MiniWalletSuccessNewUserCreateResponse;
 import com.helios.miniwallet.dto.response.MiniWalletUserAlreadyExistsResponse;
@@ -28,7 +28,7 @@ public class UserController {
   @PostMapping
   public MiniWalletResponse createMiniWalletUser(
       HttpServletResponse httpServletResponse,
-      @Valid NewMiniWalletUser newUser,
+      @Valid MiniWalletNewUserRequest newUser,
       BindingResult bindingResult) {
 
     try {
