@@ -30,10 +30,14 @@ CREATE TABLE IF NOT EXISTS wallet_transaction_history (
     wallet_transaction_id BIGINT AUTO_INCREMENT,
     wallet_transaction_timestamp DATETIME(6),
     wallet_transaction_action VARCHAR(255) NOT NULL,
+    wallet_transaction_amount BIGINT NOT NULL,
+    wallet_transaction_balance BIGINT NOT NULL,
     wallet_id BIGINT,
     CONSTRAINT wallet_transaction_history_pk_wallet_transaction_id PRIMARY KEY (wallet_transaction_id),
     CONSTRAINT wallet_transaction_history_fk_wallet_id FOREIGN KEY (wallet_id)
-        REFERENCES wallet (wallet_id)
+        REFERENCES wallet (wallet_id),
+    CONSTRAINT wallet_transaction_history_ck_wallet_transaction_amount CHECK (wallet_transaction_amount > 0),
+    CONSTRAINT wallet_transaction_history_ck_wallet_transaction_balance CHECK (wallet_transaction_balance >= 0)
 );
 
 CREATE TABLE wallet_minium_balance (

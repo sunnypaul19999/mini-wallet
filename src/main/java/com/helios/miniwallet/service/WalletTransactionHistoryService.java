@@ -8,7 +8,8 @@ import java.util.List;
 
 public interface WalletTransactionHistoryService {
 
-  void createTransaction(Wallet wallet, WalletTransactionAction transactionAction);
+  void createTransaction(
+      Wallet wallet, long transactionAmount, WalletTransactionAction transactionAction);
 
   List<WalletTransactionHistory> getTransactionHistory(Wallet wallet);
 }

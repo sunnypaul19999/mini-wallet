@@ -3,6 +3,7 @@ package com.helios.miniwallet.model.walletransaction;
 import com.helios.miniwallet.model.wallet.Wallet;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import java.sql.Timestamp;
 
 @Entity(name = "wallet_transaction_history")
@@ -16,6 +17,14 @@ public class WalletTransactionHistory {
   @Enumerated(value = EnumType.STRING)
   @Column(name = "wallet_transaction_action", nullable = false, updatable = false)
   private WalletTransactionAction action;
+
+  @Column(name = "wallet_transaction_amount", nullable = false, updatable = false)
+  @Min(value = 1)
+  private long walletTransactionAmount;
+
+  @Column(name = "wallet_transaction_balance", nullable = false, updatable = false)
+  @Min(value = 0)
+  private long walletTransactionBalance;
 
   @Version
   @Column(name = "wallet_transaction_timestamp", nullable = false)
@@ -49,6 +58,26 @@ public class WalletTransactionHistory {
   public void setAction(WalletTransactionAction action) {
 
     this.action = action;
+  }
+
+  public long getWalletTransactionAmount() {
+
+    return walletTransactionAmount;
+  }
+
+  public void setWalletTransactionAmount(long walletTransactionAmount) {
+
+    this.walletTransactionAmount = walletTransactionAmount;
+  }
+
+  public long getWalletTransactionBalance() {
+
+    return walletTransactionBalance;
+  }
+
+  public void setWalletTransactionBalance(long walletTransactionBalance) {
+
+    this.walletTransactionBalance = walletTransactionBalance;
   }
 
   public Timestamp getWalletTransactionTimestamp() {

@@ -22,7 +22,9 @@ public class WalletTransactionHistoryImpl implements WalletTransactionHistorySer
   }
 
   @Transactional(propagation = Propagation.MANDATORY)
-  public void createTransaction(Wallet wallet, WalletTransactionAction transactionAction) {
+  public void createTransaction(
+      Wallet wallet, long transactionAmount, WalletTransactionAction transactionAction) {
+
     WalletTransactionHistory walletTransaction = new WalletTransactionHistory();
 
     if (transactionAction == WalletTransactionAction.DEBIT) {
@@ -37,6 +39,10 @@ public class WalletTransactionHistoryImpl implements WalletTransactionHistorySer
       // and I forgot make change here
       throw new RuntimeException("Unknown WalletTransactionAction");
     }
+
+    walletTransaction.setWalletTransactionAmount(transactionAmount);
+
+    walletTransaction.setWalletTransactionBalance(wallet.getAvailableBalance());
 
     walletTransaction.setWallet(wallet);
 

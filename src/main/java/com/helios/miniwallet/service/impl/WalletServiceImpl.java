@@ -72,7 +72,8 @@ public class WalletServiceImpl implements WalletService {
 
     wallet = walletRepo.save(wallet);
 
-    walletTransactionHistoryService.createTransaction(wallet, WalletTransactionAction.DEBIT);
+    walletTransactionHistoryService.createTransaction(
+        wallet, debitRequest.getAmt(), WalletTransactionAction.DEBIT);
   }
 
   @Override
@@ -86,6 +87,7 @@ public class WalletServiceImpl implements WalletService {
 
     wallet = walletRepo.save(wallet);
 
-    walletTransactionHistoryService.createTransaction(wallet, WalletTransactionAction.CREDIT);
+    walletTransactionHistoryService.createTransaction(
+        wallet, creditRequest.getAmt(), WalletTransactionAction.CREDIT);
   }
 }
