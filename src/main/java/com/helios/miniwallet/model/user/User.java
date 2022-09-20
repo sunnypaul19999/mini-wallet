@@ -3,26 +3,31 @@ package com.helios.miniwallet.model.user;
 import com.helios.miniwallet.model.wallet.Wallet;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Entity(name = "mini_wallet_user")
 public class User {
 
   @Id
-  @Column(name = "user_id")
+  @Column(name = "user_id", nullable = false, updatable = false)
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long userId;
 
   @Column(name = "username", nullable = false, unique = true)
   private String username;
 
+  @Column(name = "password", nullable = false)
+  private String password;
+
+  @Version
+  @Column(name = "mini_wallet_user_timestamp", nullable = false)
+  private Timestamp miniWalletUserTimestamp;
+
   @Column(name = "jwt_token")
   private String jwtToken;
 
   @OneToOne(mappedBy = "user")
   private Wallet wallet;
-
-  @Column(name = "password", nullable = false)
-  private String password;
 
   public User() {}
 
@@ -62,16 +67,6 @@ public class User {
     this.jwtToken = jwtToken;
   }
 
-  public Wallet getWallet() {
-
-    return wallet;
-  }
-
-  public void setWallet(Wallet wallet) {
-
-    this.wallet = wallet;
-  }
-
   public String getPassword() {
 
     return password;
@@ -80,6 +75,26 @@ public class User {
   public void setPassword(String password) {
 
     this.password = password;
+  }
+
+  public Timestamp getMiniWalletUserTimestamp() {
+
+    return miniWalletUserTimestamp;
+  }
+
+  public void setMiniWalletUserTimestamp(Timestamp miniWalletUserTimestamp) {
+
+    this.miniWalletUserTimestamp = miniWalletUserTimestamp;
+  }
+
+  public Wallet getWallet() {
+
+    return wallet;
+  }
+
+  public void setWallet(Wallet wallet) {
+
+    this.wallet = wallet;
   }
 
   @Override

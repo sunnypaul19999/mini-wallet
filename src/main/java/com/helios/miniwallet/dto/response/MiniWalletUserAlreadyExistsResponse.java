@@ -9,7 +9,7 @@ public class MiniWalletUserAlreadyExistsResponse implements MiniWalletResponse {
 
   public MiniWalletUserAlreadyExistsResponse(String username) {
 
-    this.message = String.format("User with username %d already exists", username);
+    this.message = String.format("User with username %s already exists", username);
   }
 
   public String getMessage() {

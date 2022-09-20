@@ -5,6 +5,6 @@ public class MiniWalletUserAlreadyExistsException extends Exception
 
   public MiniWalletUserAlreadyExistsException(String username) {
 
-    super(String.format("User already exists: %d", username));
+    super(String.format("User already exists: %s", username));
   }
 }

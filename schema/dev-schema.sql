@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS mini_wallet_user (
     user_id BIGINT AUTO_INCREMENT,
     username VARCHAR(255) NOT NULL,
     password VARCHAR(80) NOT NULL,
+    mini_wallet_user_timestamp DATETIME(6),
     jwt_token TEXT,
     CONSTRAINT mini_wallet_user_pk_user_id PRIMARY KEY (user_id),
     CONSTRAINT mini_wallet_user_un_username UNIQUE KEY (username)
