@@ -1,6 +1,6 @@
 package com.helios.miniwallet.exception.user;
 
-public class MiniWalletUserNotFoundException extends Exception implements MiniWalletUserException {
+public class MiniWalletUserNotFoundException extends MiniWalletUserException {
 
   public MiniWalletUserNotFoundException(String username) {
 

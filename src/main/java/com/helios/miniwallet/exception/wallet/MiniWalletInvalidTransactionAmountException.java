@@ -2,8 +2,7 @@ package com.helios.miniwallet.exception.wallet;
 
 import com.helios.miniwallet.exception.MiniWalletException;
 
-public class MiniWalletInvalidTransactionAmountException extends Exception
-    implements MiniWalletException {
+public class MiniWalletInvalidTransactionAmountException extends MiniWalletException {
 
   private final long transactionTimestamp;
 

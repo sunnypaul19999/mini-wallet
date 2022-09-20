@@ -1,3 +1,9 @@
 package com.helios.miniwallet.exception;
 
-public interface MiniWalletException {}
+public class MiniWalletException extends Exception {
+
+  public MiniWalletException(String message) {
+
+    super(message);
+  }
+}
