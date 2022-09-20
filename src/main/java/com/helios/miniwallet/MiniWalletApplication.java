@@ -67,9 +67,9 @@ public class MiniWalletApplication {
     http.cors().disable();
 
     http.authorizeRequests()
+        .mvcMatchers("**/user/create", "**/user/debug")
+        .permitAll()
         .mvcMatchers("**/user/acct/balance")
-        .authenticated()
-        .anyRequest()
         .authenticated();
 
     http.httpBasic();

@@ -3,14 +3,18 @@ package com.helios.miniwallet.dto.request;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.validation.constraints.NotNull;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class MiniWalletNewUserRequest implements MiniWalletRequest {
 
+  @NotNull
   @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-  private final String username;
+  private String username;
 
+  @NotNull
   @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-  private final String password;
+  private String password;
 
   public MiniWalletNewUserRequest(String username, String password) {
 

@@ -6,29 +6,31 @@ import com.helios.miniwallet.dto.response.MiniWalletSuccessNewUserCreateResponse
 import com.helios.miniwallet.dto.response.MiniWalletUserAlreadyExistsResponse;
 import com.helios.miniwallet.exception.user.MiniWalletUserAlreadyExistsException;
 import com.helios.miniwallet.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping(name = "/user")
+@RequestMapping(path = "/user")
 public class UserController {
 
   private final UserService userService;
+
+  private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
   public UserController(UserService userService) {
 
     this.userService = userService;
   }
 
-  @PostMapping
+  @PostMapping(path = "/create")
   public MiniWalletResponse createMiniWalletUser(
       HttpServletResponse httpServletResponse,
-      @Valid MiniWalletNewUserRequest newUser,
+      @Valid @RequestBody MiniWalletNewUserRequest newUser,
       BindingResult bindingResult) {
 
     try {
@@ -43,5 +45,11 @@ public class UserController {
 
       return new MiniWalletUserAlreadyExistsResponse(newUser.getUsername());
     }
+  }
+
+  @GetMapping(path = "/debug")
+  public String debugMiniWallet() {
+
+    return "debug";
   }
 }

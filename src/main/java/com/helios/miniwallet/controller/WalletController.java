@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletResponse;
 
 @RestController
-@RequestMapping(value = "/user/acct")
+@RequestMapping(path = "/user/acct")
 public class WalletController {
 
   private final WalletService walletService;
@@ -22,7 +22,7 @@ public class WalletController {
     this.walletService = walletService;
   }
 
-  @GetMapping("/balance")
+  @GetMapping(path = "/balance")
   public MiniWalletResponse fetchBalance(HttpServletResponse httpServletResponse) {
 
     final UserDetails userDetails =
@@ -30,5 +30,11 @@ public class WalletController {
 
     return new MiniWalletSuccessBalanceResponse(
         walletService.availableBalance(userDetails.getUsername()), "Balance fetched successfully");
+  }
+
+  @GetMapping(path = "/debug")
+  public String debugMiniWallet() {
+
+    return "debug";
   }
 }

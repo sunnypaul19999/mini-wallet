@@ -6,6 +6,7 @@ import com.helios.miniwallet.model.user.User;
 import com.helios.miniwallet.repository.UserRepo;
 import com.helios.miniwallet.service.UserService;
 import com.helios.miniwallet.service.WalletService;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
@@ -20,7 +21,7 @@ public class UserServiceImpl implements UserService {
 
   private final WalletService walletService;
 
-  public UserServiceImpl(UserRepo userRepo, WalletService walletService) {
+  public UserServiceImpl(UserRepo userRepo, @Lazy WalletService walletService) {
 
     this.userRepo = userRepo;
     this.walletService = walletService;
