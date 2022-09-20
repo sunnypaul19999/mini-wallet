@@ -2,27 +2,27 @@ package com.helios.miniwallet.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class MiniWalletResponseSuccessOnDebit implements MiniWalletResponse {
+public class MiniWalletResponseFailureOnDebit implements MiniWalletResponse {
 
   @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-  private final long debitAmount;
+  private final long amount;
 
   @JsonProperty(access = JsonProperty.Access.READ_ONLY)
   private final long timestamp;
 
-  @JsonProperty(access = JsonProperty.Access.READ_ONLY, required = true)
+  @JsonProperty(access = JsonProperty.Access.READ_ONLY)
   private final String message;
 
-  public MiniWalletResponseSuccessOnDebit(long debitAmount, long timestamp, String message) {
+  public MiniWalletResponseFailureOnDebit(long amount, long timestamp, String message) {
 
-    this.debitAmount = debitAmount;
+    this.amount = amount;
     this.timestamp = timestamp;
     this.message = message;
   }
 
-  public long getDebitAmount() {
+  public long getAmount() {
 
-    return debitAmount;
+    return amount;
   }
 
   public long getTimestamp() {

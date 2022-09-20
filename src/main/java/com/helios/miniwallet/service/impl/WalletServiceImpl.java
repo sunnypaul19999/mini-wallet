@@ -3,6 +3,8 @@ package com.helios.miniwallet.service.impl;
 import com.helios.miniwallet.dto.request.MiniWalletRequestCredit;
 import com.helios.miniwallet.dto.request.MiniWalletRequestDebit;
 import com.helios.miniwallet.exception.user.MiniWalletUserNotFoundException;
+import com.helios.miniwallet.exception.wallet.MiniWalletInvalidTransactionAmountException;
+import com.helios.miniwallet.exception.wallet.MiniWalletMinimumBalanceException;
 import com.helios.miniwallet.model.user.User;
 import com.helios.miniwallet.model.wallet.Wallet;
 import com.helios.miniwallet.model.walletransaction.WalletTransactionAction;
@@ -15,6 +17,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -64,21 +67,40 @@ public class WalletServiceImpl implements WalletService {
 
   @Override
   @Transactional(isolation = Isolation.REPEATABLE_READ, propagation = Propagation.REQUIRES_NEW)
-  public void debitAmt(MiniWalletRequestDebit debitRequest) throws MiniWalletUserNotFoundException {
+  public Wallet debitAmt(MiniWalletRequestDebit debitRequest)
+      throws MiniWalletUserNotFoundException, MiniWalletInvalidTransactionAmountException,
+          MiniWalletMinimumBalanceException {
 
     Wallet wallet = getWallet(debitRequest.getUsername()).get();
 
-    wallet.setAvailableBalance(wallet.getAvailableBalance() - debitRequest.getAmt());
+    long onDebitBalance = wallet.getAvailableBalance() - debitRequest.getAmt();
+
+    if (debitRequest.getAmt() > 0) {
+
+      if (onDebitBalance > 0) {
+
+        wallet.setAvailableBalance(onDebitBalance);
+      } else {
+
+        throw new MiniWalletMinimumBalanceException("Wallet does not have required balance");
+      }
+    } else {
+
+      throw new MiniWalletInvalidTransactionAmountException(
+          debitRequest.getAmt(), new Date().getTime(), "Amount should be greater than 0");
+    }
 
     wallet = walletRepo.save(wallet);
 
     walletTransactionHistoryService.createTransaction(
         wallet, debitRequest.getAmt(), WalletTransactionAction.DEBIT);
+
+    return wallet;
   }
 
   @Override
   @Transactional(isolation = Isolation.REPEATABLE_READ, propagation = Propagation.REQUIRES_NEW)
-  public void creditAmt(MiniWalletRequestCredit creditRequest)
+  public Wallet creditAmt(MiniWalletRequestCredit creditRequest)
       throws MiniWalletUserNotFoundException {
 
     Wallet wallet = getWallet(creditRequest.getUsername()).get();
@@ -89,5 +111,7 @@ public class WalletServiceImpl implements WalletService {
 
     walletTransactionHistoryService.createTransaction(
         wallet, creditRequest.getAmt(), WalletTransactionAction.CREDIT);
+
+    return wallet;
   }
 }

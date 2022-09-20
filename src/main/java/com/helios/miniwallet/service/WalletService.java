@@ -3,6 +3,8 @@ package com.helios.miniwallet.service;
 import com.helios.miniwallet.dto.request.MiniWalletRequestCredit;
 import com.helios.miniwallet.dto.request.MiniWalletRequestDebit;
 import com.helios.miniwallet.exception.user.MiniWalletUserNotFoundException;
+import com.helios.miniwallet.exception.wallet.MiniWalletInvalidTransactionAmountException;
+import com.helios.miniwallet.exception.wallet.MiniWalletMinimumBalanceException;
 import com.helios.miniwallet.model.user.User;
 import com.helios.miniwallet.model.wallet.Wallet;
 
@@ -12,7 +14,9 @@ public interface WalletService {
 
   long availableBalance(String username) throws MiniWalletUserNotFoundException;
 
-  void debitAmt(MiniWalletRequestDebit debitRequest) throws MiniWalletUserNotFoundException;
+  Wallet debitAmt(MiniWalletRequestDebit debitRequest)
+      throws MiniWalletUserNotFoundException, MiniWalletInvalidTransactionAmountException,
+          MiniWalletMinimumBalanceException;
 
-  void creditAmt(MiniWalletRequestCredit creditRequest) throws MiniWalletUserNotFoundException;
+  Wallet creditAmt(MiniWalletRequestCredit creditRequest) throws MiniWalletUserNotFoundException;
 }
